@@ -3,6 +3,12 @@
 PROJECT: SMART JOURNEY DEVICE TRACKER & LOST PHONE RECOVERY SYSTEM
 FILE: PROJECT_MODULES.py
 AUTHOR: Ved (Codewith-Ved)
+----------------------------------------------------------------------------------------
+🔗 LIVE CLOUD DEPLOYMENT LINKS (Hold 'Cmd' key and Click in VS Code to open):
+   👉 Dashboard (Live Map):   https://device-tracker-ezlc.onrender.com
+   👉 Mobile Phone Tracker:   https://device-tracker-ezlc.onrender.com/track
+   👉 GitHub Repository:      https://github.com/Codewith-Ved/device-tracker
+----------------------------------------------------------------------------------------
 DESCRIPTION: Comprehensive Modular Architecture & Technical Implementation Overview.
              Open this file in VS Code to explain the internal software engineering
              and system architecture to faculty/examiners during project evaluation.
@@ -356,3 +362,11 @@ if __name__ == "__main__":
     print("=" * 80)
     print(" ✅ ALL ARCHITECTURAL MODULES OPERATIONAL AND READY FOR REVIEW PRESENTATION!")
     print("=" * 80)
+    print("\n💡 TIP: To automatically launch the live browser dashboard from VS Code, run:")
+    print("   python3 PROJECT_MODULES.py --open\n")
+
+    import sys
+    import webbrowser
+    if "--open" in sys.argv or "-o" in sys.argv:
+        print("🚀 Opening Live Cloud Dashboard in your default browser...")
+        webbrowser.open("https://device-tracker-ezlc.onrender.com")
