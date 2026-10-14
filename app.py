@@ -365,11 +365,21 @@ def toggle_alarm(journey_id):
         return jsonify({'error': 'Journey not found'}), 404
 
     new_state = 0 if row[0] else 1
-    cursor.execute('UPDATE journeys SET alarm_triggered = ? WHERE id = ?', (new_state, journey_id))
+    cursor.execute('UPDATE journeys SET alarm_triggered = ?, status = ? WHERE id = ?', 
+                   (new_state, 'lost' if new_state else 'active', journey_id))
     conn.commit()
     conn.close()
 
     return jsonify({'success': True, 'alarm_triggered': bool(new_state)})
+
+@app.route('/api/journey/<journey_id>/silence_alarm', methods=['POST'])
+def silence_alarm(journey_id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('UPDATE journeys SET alarm_triggered = 0, status = "active" WHERE id = ?', (journey_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True, 'alarm_triggered': False})
 
 @app.route('/api/journey/<journey_id>/status', methods=['POST'])
 def update_status(journey_id):

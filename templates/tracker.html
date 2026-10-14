@@ -495,12 +495,20 @@
       }
     }
 
-    function stopAlarmSiren() {
+    let alarmAcknowledgedLocally = false;
+
+    async function stopAlarmSiren() {
       isAlarmSounding = false;
+      alarmAcknowledgedLocally = true;
       alarmOverlay.style.display = 'none';
       if (alarmOscillator) {
         try { alarmOscillator.stop(); } catch(e){}
         alarmOscillator = null;
+      }
+      try {
+        await fetch(`/api/journey/${JOURNEY_ID}/silence_alarm`, { method: 'POST' });
+      } catch (err) {
+        console.warn('Failed to notify server of silence:', err);
       }
     }
     document.getElementById('silence-alarm-btn').addEventListener('click', stopAlarmSiren);
@@ -531,9 +539,14 @@
           updateNetworkStatus();
 
           if (data.alarm_triggered || data.status === 'lost') {
-            triggerAlarmSiren();
-          } else if (isAlarmSounding && !data.alarm_triggered) {
-            stopAlarmSiren();
+            if (!alarmAcknowledgedLocally) {
+              triggerAlarmSiren();
+            }
+          } else {
+            alarmAcknowledgedLocally = false; // re-arm if deactivated on server
+            if (isAlarmSounding) {
+              stopAlarmSiren();
+            }
           }
 
           if (offlineQueue.length > 0) {
