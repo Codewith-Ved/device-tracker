@@ -299,12 +299,24 @@
     <span class="badge badge-online" id="connection-badge">Connecting...</span>
   </div>
 
-  <div class="journey-card">
-    <div class="journey-title">Current Journey: {{ journey.id }}</div>
-    <div class="route-points">
-      <span>{{ journey.start_name }}</span>
+  <div class="journey-card" style="border: 2px solid #0284c7; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; animation: pulse 1.5s infinite;"></span>
+        <strong style="color: #38bdf8; font-size: 0.95rem; letter-spacing: 0.5px;">ACTIVE JOURNEY MODE</strong>
+      </div>
+      <span id="trip-timer" style="font-size: 0.8rem; font-family: monospace; background: #0f172a; padding: 4px 8px; border-radius: 6px; border: 1px solid #334155; color: #f8fafc;">00:00:00</span>
+    </div>
+
+    <div class="route-points" style="margin-bottom: 8px;">
+      <span style="color: #f8fafc;">{{ journey.start_name }}</span>
       <span class="arrow">➔</span>
-      <span>{{ journey.end_name }}</span>
+      <span style="color: #f8fafc;">{{ journey.end_name }}</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #94a3b8; border-top: 1px solid #334155; padding-top: 8px; margin-top: 6px;">
+      <span>ID: <code style="color: #38bdf8;">{{ journey.id }}</code></span>
+      <span id="trip-distance">Distance: <strong>0.0 km</strong></span>
     </div>
   </div>
 
@@ -336,7 +348,7 @@
     <div class="metric-card card-full">
       <span class="metric-label">Current Coordinates</span>
       <span class="metric-value" style="font-size: 1rem; word-break: break-all;" id="metric-coords">Acquiring GPS fix...</span>
-      <div class="wakelock-pill" id="wakelock-status">🔒 Screen Sleep: Active</div>
+      <div class="wakelock-pill" id="wakelock-status">🔒 Screen WakeLock: Prevent Sleep Active</div>
     </div>
   </div>
 
@@ -416,6 +428,30 @@
         requestWakeLock();
       }
     });
+
+    // Live Trip Elapsed Timer
+    const tripStartTime = Date.now();
+    setInterval(() => {
+      const elapsed = Math.floor((Date.now() - tripStartTime) / 1000);
+      const hrs = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+      const secs = String(elapsed % 60).padStart(2, '0');
+      const timerEl = document.getElementById('trip-timer');
+      if (timerEl) timerEl.textContent = `${hrs}:${mins}:${secs}`;
+    }, 1000);
+
+    // Live Distance Accumulator
+    let totalDistanceKm = 0;
+    let prevCoords = null;
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
 
     // Battery API
     let batteryLevel = null;
@@ -625,6 +661,16 @@
           metricCoords.textContent = `${coords.latitude.toFixed(6)}, ${coords.longitude.toFixed(6)}`;
           statusText.textContent = 'Hardware GPS Active & Streaming';
           liveIndicator.style.background = 'var(--success)';
+
+          if (prevCoords) {
+            const d = calculateDistance(prevCoords.lat, prevCoords.lng, coords.latitude, coords.longitude);
+            if (!isNaN(d) && d > 0.005) {
+              totalDistanceKm += d;
+              const distEl = document.getElementById('trip-distance');
+              if (distEl) distEl.innerHTML = `Distance: <strong>${totalDistanceKm.toFixed(2)} km</strong>`;
+            }
+          }
+          prevCoords = { lat: coords.latitude, lng: coords.longitude };
 
           const payload = {
             journey_id: JOURNEY_ID,
