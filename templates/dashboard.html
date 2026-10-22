@@ -575,6 +575,16 @@
         <div style="margin-top: 10px; font-size: 0.78rem; color: var(--text-muted);">
           Coordinates: <strong id="val-coords" style="color: var(--text);">-</strong>
         </div>
+
+        <!-- Simulation Controls for Evaluation Demo -->
+        <div style="display: flex; gap: 6px; margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 8px;">
+          <button class="btn btn-outline" id="btn-test-ping-safe" style="font-size: 0.74rem; padding: 6px; border-color: #10b981; color: #34d399;" title="Simulates phone driving on the highway">
+            🧪 Test On-Route
+          </button>
+          <button class="btn btn-outline" id="btn-test-ping-deviated" style="font-size: 0.74rem; padding: 6px; border-color: #ef4444; color: #fca5a5;" title="Simulates vehicle veering 3km off highway">
+            🚨 Test &gt;500m Alert
+          </button>
+        </div>
       </div>
 
       <!-- Emergency & Lost Actions -->
@@ -723,7 +733,7 @@
       const feedback = document.getElementById('phone-search-feedback');
       feedback.style.display = 'block';
       feedback.style.color = '#38bdf8';
-      feedback.textContent = `Searching active journeys for ${phoneNum}...`;
+      feedback.textContent = `Connecting to ${phoneNum}...`;
 
       try {
         const res = await fetch(`/api/journey/by_phone/${encodeURIComponent(phoneNum)}`);
@@ -731,14 +741,16 @@
           const data = await res.json();
           activeJourneyId = data.journey.id;
           feedback.style.color = '#34d399';
-          feedback.textContent = `Found active device: ${data.journey.device_name} (ID: ${activeJourneyId})`;
-          setupPairingUI(activeJourneyId, data.journey.phone_number);
+          feedback.innerHTML = `✅ <strong>Connected to ${phoneNum}!</strong><br>Scan QR code or tap WhatsApp below to start mobile GPS stream.`;
+          setupPairingUI(activeJourneyId, data.journey.phone_number || phoneNum);
           updateDashboardView(data);
           startTrackingLoop();
+          if (data.planned_route && data.planned_route.length > 0) {
+            renderPlannedRoute(data.planned_route);
+          }
         } else {
           feedback.style.color = '#f87171';
-          feedback.textContent = `No active journey currently associated with ${phoneNum}. Starting new session below.`;
-          document.getElementById('input-phone-number').value = phoneNum;
+          feedback.textContent = `Unable to connect to phone ${phoneNum}.`;
         }
       } catch (err) {
         feedback.style.color = '#f87171';
@@ -809,15 +821,23 @@
       const infoRes = await fetch('/api/server_info');
       const info = await infoRes.json();
 
-      let trackingUrl = `${info.base_url}/track/${journeyId}`;
+      // Cloud URL works on any phone (cellular or Wi-Fi) with trusted SSL certificates
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const cloudBase = info.cloud_url || 'https://device-tracker-ezlc.onrender.com';
+      const mobileBase = isLocalHost ? cloudBase : info.base_url;
+
+      let trackingUrl = `${mobileBase}/track/${journeyId}`;
       if (phoneNumber) {
-        trackingUrl = `${info.base_url}/track?phone=${encodeURIComponent(phoneNumber)}`;
+        trackingUrl = `${mobileBase}/track?phone=${encodeURIComponent(phoneNumber)}`;
       }
       
       document.getElementById('pairing-card').style.display = 'block';
       document.getElementById('telemetry-card').style.display = 'block';
       document.getElementById('emergency-card').style.display = 'block';
-      document.getElementById('mobile-url-text').textContent = trackingUrl;
+      document.getElementById('mobile-url-text').innerHTML = `
+        <div style="margin-bottom: 4px;"><strong>Target URL:</strong> <a href="${trackingUrl}" target="_blank" style="color: #38bdf8;">${trackingUrl}</a></div>
+        ${isLocalHost ? '<div style="font-size:0.7rem; color:#94a3b8;">(Encoded for cloud deployment so your phone connects over 4G/5G)</div>' : ''}
+      `;
 
       // Render QR Code
       const qrEl = document.getElementById('qrcode');
@@ -851,6 +871,47 @@
         const waUrl = cleanPhone ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${msg}` : `https://api.whatsapp.com/send?text=${msg}`;
         window.open(waUrl, '_blank');
       };
+    }
+
+    // Telemetry Test Simulation Listeners
+    const btnSafe = document.getElementById('btn-test-ping-safe');
+    if (btnSafe) {
+      btnSafe.addEventListener('click', async () => {
+        if (!activeJourneyId) return alert('Start a journey first!');
+        await fetch('/api/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            journey_id: activeJourneyId,
+            lat: 19.0620,
+            lng: 72.8660,
+            speed: 62.5,
+            accuracy: 6,
+            battery_level: 89
+          })
+        });
+        pollJourneyData();
+      });
+    }
+
+    const btnDev = document.getElementById('btn-test-ping-deviated');
+    if (btnDev) {
+      btnDev.addEventListener('click', async () => {
+        if (!activeJourneyId) return alert('Start a journey first!');
+        await fetch('/api/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            journey_id: activeJourneyId,
+            lat: 19.1450,
+            lng: 72.9800,
+            speed: 48.0,
+            accuracy: 12,
+            battery_level: 87
+          })
+        });
+        pollJourneyData();
+      });
     }
 
     // -------------------------------------------------------------

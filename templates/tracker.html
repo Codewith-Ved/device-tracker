@@ -375,6 +375,14 @@
         🛣️ 1033 (Patrol)
       </a>
     </div>
+  <!-- GPS Force Enable & Indoor Demo Buttons -->
+  <div style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+    <button class="btn" id="btn-force-gps" style="background: #0284c7; color: white;">
+      📍 Enable / Retry Mobile GPS Access
+    </button>
+    <button class="btn btn-outline" id="btn-demo-simulate" style="border: 1px solid #38bdf8; color: #38bdf8; font-size: 0.88rem;">
+      🚗 Indoor Demo: Simulate Highway Driving
+    </button>
   </div>
 
   <div class="status-panel">
@@ -773,6 +781,87 @@
         },
         geoOptions
       );
+    // Manual GPS activation button (triggers native browser location prompt)
+    const btnForceGps = document.getElementById('btn-force-gps');
+    if (btnForceGps) {
+      btnForceGps.addEventListener('click', () => {
+        statusText.textContent = 'Requesting GPS Satellite Fix...';
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              statusText.textContent = 'GPS Fix Acquired! Streaming...';
+              startWatchingLocation(true);
+            },
+            (err) => {
+              alert('GPS Access Notice: ' + err.message + '\n\nPlease ensure Location Services are turned ON in your phone settings and tap Allow in your browser.');
+              startWatchingLocation(false);
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+          );
+        } else {
+          alert('Geolocation is not supported by your browser.');
+        }
+      });
+    }
+
+    // Indoor Demo Simulation Mode
+    let isSimulating = false;
+    let simInterval = null;
+    let simIndex = 0;
+    const DEMO_WAYPOINTS = [
+      [19.0760, 72.8777, 45.0],
+      [19.0650, 72.8900, 62.0],
+      [19.0500, 72.9100, 68.0],
+      [19.0300, 72.9350, 75.0],
+      [19.0100, 72.9600, 72.0],
+      [18.9800, 72.9900, 80.0],
+      [18.9500, 73.0200, 85.0],
+      [18.9000, 73.0600, 88.0],
+      [18.8500, 73.1100, 92.0],
+      [18.8000, 73.1600, 89.0]
+    ];
+
+    const btnSim = document.getElementById('btn-demo-simulate');
+    if (btnSim) {
+      btnSim.addEventListener('click', () => {
+        if (isSimulating) {
+          clearInterval(simInterval);
+          isSimulating = false;
+          btnSim.textContent = '🚗 Indoor Demo: Simulate Highway Driving';
+          btnSim.style.background = 'transparent';
+          statusText.textContent = 'Demo Simulation Stopped';
+          return;
+        }
+
+        isSimulating = true;
+        btnSim.textContent = '⏹️ Stop Driving Simulation';
+        btnSim.style.background = '#0369a1';
+        statusText.textContent = 'Simulated Highway Drive Active';
+
+        simInterval = setInterval(() => {
+          const pt = DEMO_WAYPOINTS[simIndex % DEMO_WAYPOINTS.length];
+          simIndex++;
+
+          metricSpeed.textContent = pt[2].toFixed(1);
+          metricAccuracy.textContent = '5';
+          metricCoords.textContent = `${pt[0].toFixed(5)}, ${pt[1].toFixed(5)}`;
+
+          const payload = {
+            journey_id: JOURNEY_ID,
+            lat: pt[0],
+            lng: pt[1],
+            accuracy: 5,
+            speed: pt[2],
+            altitude: 42,
+            heading: 110,
+            battery_level: batteryLevel !== null ? batteryLevel : 88,
+            battery_charging: batteryCharging,
+            network_type: '4g',
+            recorded_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
+          };
+          sendPing(payload);
+        }, 2200);
+      });
     }
 
     startWatchingLocation(true);

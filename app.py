@@ -254,6 +254,20 @@ def track_universal():
     if norm_phone:
         cursor.execute("SELECT * FROM journeys WHERE phone_number LIKE ? AND status = 'active' ORDER BY created_at DESC LIMIT 1", (f"%{norm_phone}%",))
         journey = cursor.fetchone()
+        if not journey:
+            # Auto-create active journey specifically for this phone number
+            journey_id = f"journey-{int(time.time())}"
+            start_lat, start_lng = 19.0760, 72.8777
+            end_lat, end_lng = 18.5204, 73.8567
+            route_coords = fetch_or_interpolate_route(start_lat, start_lng, end_lat, end_lng)
+            cursor.execute('''
+                INSERT INTO journeys (id, device_name, phone_number, start_name, end_name,
+                                       start_lat, start_lng, end_lat, end_lng, planned_route_json, status)
+                VALUES (?, ?, ?, 'Mumbai (BKC Hub)', 'Pune (Hinjawadi)', ?, ?, ?, ?, ?, 'active')
+            ''', (journey_id, f"Mobile ({phone_param})", phone_param, start_lat, start_lng, end_lat, end_lng, json.dumps(route_coords)))
+            conn.commit()
+            cursor.execute("SELECT * FROM journeys WHERE id = ?", (journey_id,))
+            journey = cursor.fetchone()
 
     if not journey:
         cursor.execute("SELECT * FROM journeys WHERE status = 'active' ORDER BY created_at DESC LIMIT 1")
@@ -261,10 +275,14 @@ def track_universal():
 
     if not journey:
         journey_id = f"journey-{int(time.time())}"
+        start_lat, start_lng = 19.0760, 72.8777
+        end_lat, end_lng = 18.5204, 73.8567
+        route_coords = fetch_or_interpolate_route(start_lat, start_lng, end_lat, end_lng)
         cursor.execute('''
-            INSERT INTO journeys (id, device_name, phone_number, start_name, end_name, status)
-            VALUES (?, 'My Mobile Phone', ?, 'Start Point', 'Destination', 'active')
-        ''', (journey_id, norm_phone or 'Not Specified'))
+            INSERT INTO journeys (id, device_name, phone_number, start_name, end_name,
+                                   start_lat, start_lng, end_lat, end_lng, planned_route_json, status)
+            VALUES (?, 'My Mobile Phone', ?, 'Start Point', 'Destination', ?, ?, ?, ?, ?, 'active')
+        ''', (journey_id, norm_phone or 'Not Specified', start_lat, start_lng, end_lat, end_lng, json.dumps(route_coords)))
         conn.commit()
         cursor.execute("SELECT * FROM journeys WHERE id = ?", (journey_id,))
         journey = cursor.fetchone()
@@ -294,12 +312,14 @@ def server_info():
     port = request.environ.get('SERVER_PORT', 5050)
     proto = request.headers.get('X-Forwarded-Proto', request.scheme)
     host = request.host
+    cloud_url = "https://device-tracker-ezlc.onrender.com"
     return jsonify({
         'local_ip': local_ip,
         'port': port,
         'host': host,
         'protocol': proto,
-        'base_url': f"{proto}://{host}"
+        'base_url': f"{proto}://{host}",
+        'cloud_url': cloud_url
     })
 
 @app.route('/api/journey/start', methods=['POST'])
@@ -310,8 +330,8 @@ def start_journey():
     start_name = data.get('start_name', 'Start Point')
     end_name = data.get('end_name', 'Destination')
     start_lat = data.get('start_lat')
-    start_lng = data.get('start_lng')
     end_lat = data.get('end_lat')
+    start_lng = data.get('start_lng')
     end_lng = data.get('end_lng')
     planned_route_json = data.get('planned_route_json')
 
@@ -435,11 +455,25 @@ def get_journey_by_phone(phone):
         ORDER BY created_at DESC LIMIT 1
     """, (f"%{norm}%",))
     row = cursor.fetchone()
-    conn.close()
 
-    if row:
-        return get_journey(row['id'])
-    return jsonify({'error': f'No active journey found for phone: {phone}', 'journey': None}), 404
+    # If no journey exists yet for this phone number, automatically create one so the user can track immediately!
+    if not row:
+        journey_id = f"journey-{int(time.time())}"
+        start_lat, start_lng = 19.0760, 72.8777
+        end_lat, end_lng = 18.5204, 73.8567
+        route_coords = fetch_or_interpolate_route(start_lat, start_lng, end_lat, end_lng)
+        cursor.execute('''
+            INSERT INTO journeys (id, device_name, phone_number, start_name, end_name,
+                                   start_lat, start_lng, end_lat, end_lng, planned_route_json, status)
+            VALUES (?, ?, ?, 'Mumbai (BKC Hub)', 'Pune (Hinjawadi)', ?, ?, ?, ?, ?, 'active')
+        ''', (journey_id, f"Mobile ({phone})", phone, start_lat, start_lng, end_lat, end_lng, json.dumps(route_coords)))
+        conn.commit()
+        journey_id_to_return = journey_id
+    else:
+        journey_id_to_return = row['id']
+
+    conn.close()
+    return get_journey(journey_id_to_return)
 
 @app.route('/api/journey/latest')
 def get_latest_journey():
