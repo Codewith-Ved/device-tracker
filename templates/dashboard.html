@@ -23,6 +23,7 @@
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
+      --purple: #818cf8;
     }
 
     * {
@@ -42,8 +43,8 @@
 
     /* Left Control Sidebar */
     .sidebar {
-      width: 420px;
-      min-width: 380px;
+      width: 440px;
+      min-width: 390px;
       background: var(--panel-bg);
       border-right: 1px solid var(--card-border);
       display: flex;
@@ -54,7 +55,7 @@
     }
 
     .sidebar-header {
-      padding: 20px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       align-items: center;
@@ -62,7 +63,7 @@
     }
 
     .brand-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -82,12 +83,12 @@
     }
 
     .sidebar-content {
-      padding: 20px;
+      padding: 16px 20px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     /* Card Component */
@@ -95,7 +96,7 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px 16px;
     }
 
     .card-title {
@@ -103,7 +104,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -134,9 +135,16 @@
       animation: alertPulse 1.2s infinite;
     }
 
+    .status-deviated {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      animation: alertPulse 0.9s infinite;
+    }
+
     @keyframes alertPulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
+      50% { opacity: 0.65; }
     }
 
     .status-idle {
@@ -149,44 +157,44 @@
     .telemetry-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
     .telemetry-box {
       background: rgba(11, 15, 25, 0.6);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 10px 12px;
+      padding: 8px 10px;
     }
 
     .telemetry-val {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text);
     }
 
     .telemetry-unit {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       font-weight: normal;
     }
 
     .telemetry-sub {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
     /* Input controls */
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .form-input {
@@ -194,9 +202,9 @@
       background: #111827;
       border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 10px 12px;
+      padding: 9px 12px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
     }
 
@@ -206,9 +214,9 @@
 
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 10px 14px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
@@ -238,6 +246,15 @@
       background: #dc2626;
     }
 
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
     .btn-outline {
       background: transparent;
       border: 1px solid var(--card-border);
@@ -249,19 +266,19 @@
       border-color: var(--text-muted);
     }
 
-    /* QR Code Display Modal / Box */
+    /* QR Code Display */
     .qr-container {
       background: white;
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 12px 0;
+      margin: 10px 0;
     }
 
     .mobile-url-box {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       word-break: break-all;
       background: #111827;
       padding: 8px 10px;
@@ -278,7 +295,7 @@
       background: #191a1a;
     }
 
-    /* Custom Map Marker Styling */
+    /* Custom Map Markers */
     .pulse-marker {
       width: 22px;
       height: 22px;
@@ -297,6 +314,20 @@
       border-radius: 50%;
       box-shadow: 0 0 20px #ef4444;
       animation: lostPulse 1s infinite;
+    }
+
+    .police-marker-pin {
+      background: #1e40af;
+      border: 2px solid #93c5fd;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.9);
+      cursor: pointer;
     }
 
     @keyframes radarPulse {
@@ -320,10 +351,11 @@
       padding: 12px 16px;
       border-radius: 8px;
       z-index: 999;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
     }
 
     .legend-item {
@@ -339,10 +371,11 @@
     }
   </style>
 </head>
+<body>
   <!-- Mobile Detection Banner -->
-  <div id="mobile-detect-banner" style="display: none; background: #0284c7; padding: 14px; text-align: center; font-size: 0.95rem; font-weight: 700; color: white; position: fixed; top: 0; left: 0; width: 100%; z-index: 99999; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+  <div id="mobile-detect-banner" style="display: none; background: #0284c7; padding: 12px; text-align: center; font-size: 0.92rem; font-weight: 700; color: white; position: fixed; top: 0; left: 0; width: 100%; z-index: 99999; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
     📱 Tracking from this phone? 
-    <a href="/track" style="color: #fef08a; text-decoration: underline; margin-left: 6px; font-size: 1rem;">➔ Tap here to open Mobile Tracker</a>
+    <a href="/track" style="color: #fef08a; text-decoration: underline; margin-left: 6px; font-size: 0.95rem;">➔ Tap here to open Mobile Tracker</a>
   </div>
 
   <!-- Sidebar Controls -->
@@ -352,7 +385,7 @@
         <div class="brand-icon">📍</div>
         <div>
           <div>Device Tracker</div>
-          <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: normal;">Journey & Lost Recovery</div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: normal;">Highway Corridor & Police Help</div>
         </div>
       </div>
       <button class="btn btn-outline" style="width: auto; padding: 6px 10px; font-size: 0.75rem;" id="refresh-btn">
@@ -361,36 +394,119 @@
     </div>
 
     <div class="sidebar-content">
-      <!-- Status Box -->
+      <!-- Universal Track Any Phone Number Search -->
+      <div class="card" style="padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #3b82f6;">
+        <div style="font-size: 0.75rem; text-transform: uppercase; color: #93c5fd; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+          <span>📞 Track Any Phone Number</span>
+          <span style="font-size: 0.65rem; background: #1d4ed8; color: white; padding: 2px 6px; border-radius: 4px;">Requirement #2</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <input type="tel" class="form-input" id="search-phone-input" placeholder="e.g. +91 9876543210" style="padding: 8px 10px; font-size: 0.85rem;" />
+          <button class="btn btn-primary" id="btn-search-phone" style="width: auto; padding: 8px 14px; font-size: 0.85rem; white-space: nowrap;">
+            🔍 Track
+          </button>
+        </div>
+        <div id="phone-search-feedback" style="font-size: 0.72rem; color: #94a3b8; margin-top: 6px; display: none;"></div>
+      </div>
+
+      <!-- Status Banner -->
       <div class="status-banner status-idle" id="main-status-banner">
         <span id="status-icon">⚪</span>
         <div id="status-message">No Active Journey Selected</div>
       </div>
 
+      <!-- Geofence Corridor Deviation Alert Card (Requirement #3 & #4) -->
+      <div class="card" id="corridor-card" style="border: 1px solid #4f46e5; background: rgba(30, 27, 75, 0.5);">
+        <div class="card-title">
+          <span style="color: #a5b4fc; font-weight: 700;">🛣️ Highway Geofence Corridor</span>
+          <span id="corridor-badge" style="font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; background: #3730a3; color: #e0e7ff;">Route Monitoring</span>
+        </div>
+        <div id="corridor-status-box" style="padding: 8px 10px; border-radius: 6px; font-size: 0.82rem; line-height: 1.4; background: rgba(17, 24, 39, 0.7); margin-bottom: 8px;">
+          <span id="corridor-desc">Planned highway corridor active. Checking deviation...</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.75rem;">
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--card-border);">
+            <div style="color: var(--text-muted); font-size: 0.68rem;">Allowed Corridor Buffer:</div>
+            <strong style="color: #38bdf8;">± 500 Meters</strong>
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--card-border);">
+            <div style="color: var(--text-muted); font-size: 0.68rem;">Current Deviation:</div>
+            <strong id="corridor-deviation-distance" style="color: #10b981;">0 m (On Route)</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nearest Police Station & Emergency Contact Card (Requirement #1) -->
+      <div class="card" id="police-station-card" style="border: 1px solid #1e3a8a; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);">
+        <div class="card-title" style="color: #60a5fa;">
+          <span>🚓 Nearest Police Station & Contact</span>
+          <span style="font-size: 0.68rem; color: #34d399; font-weight: 700;" id="police-distance-tag">Locating...</span>
+        </div>
+        <div id="police-info-container" style="font-size: 0.82rem;">
+          <div style="font-weight: 700; color: #f8fafc; font-size: 0.9rem; margin-bottom: 3px;" id="police-station-name">Searching nearest police station...</div>
+          <div style="color: #94a3b8; font-size: 0.75rem; margin-bottom: 8px;" id="police-station-address">Emergency response lookup</div>
+          
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <a href="tel:112" class="btn btn-danger" id="btn-call-police" style="padding: 8px 12px; font-size: 0.8rem; text-decoration: none;">
+              📞 Call Police (112)
+            </a>
+            <button class="btn btn-outline" id="btn-nav-police" style="padding: 8px 12px; font-size: 0.8rem;">
+              🗺️ Directions
+            </button>
+          </div>
+
+          <!-- Quick Helplines Grid -->
+          <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 10px; border-radius: 6px; border: 1px solid #334155;">
+            <div style="font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; font-weight: 700;">24x7 Emergency Helplines</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.74rem;">
+              <div>🚨 National Help: <a href="tel:112" style="color: #38bdf8; font-weight: 700; text-decoration: none;">112</a></div>
+              <div>🚓 Police Desk: <a href="tel:100" style="color: #38bdf8; font-weight: 700; text-decoration: none;">100</a></div>
+              <div>🛣️ Highway Patrol: <a href="tel:1033" style="color: #38bdf8; font-weight: 700; text-decoration: none;">1033</a></div>
+              <div>🛡️ Women Safety: <a href="tel:1091" style="color: #38bdf8; font-weight: 700; text-decoration: none;">1091</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Quick Setup / New Journey Form -->
       <div class="card" id="journey-config-card">
         <div class="card-title">
-          <span>Configure Journey</span>
-          <span style="font-size: 0.7rem; color: var(--accent);">Real Device</span>
+          <span>Configure Journey & Route</span>
+          <span style="font-size: 0.7rem; color: var(--accent);">Real GPS</span>
         </div>
         
         <div class="form-group">
-          <label class="form-label">Device Name</label>
-          <input type="text" class="form-input" id="input-device-name" value="My Mobile Phone" />
+          <label class="form-label">Phone Number to Track (Requirement #2)</label>
+          <input type="tel" class="form-input" id="input-phone-number" placeholder="+91 9876543210" value="+91 9876543210" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Device / Driver Name</label>
+          <input type="text" class="form-input" id="input-device-name" value="Driver Phone (MH 01 AB 1234)" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Highway Route Corridor (Requirement #4)</label>
+          <select class="form-input" id="select-route-preset">
+            <option value="mumbai-pune">Mumbai ➔ Pune Expressway (NH 48)</option>
+            <option value="delhi-agra">Delhi ➔ Agra (Yamuna Expressway)</option>
+            <option value="bangalore-mysore">Bengaluru ➔ Mysuru Expressway (NH 275)</option>
+            <option value="custom">Custom Location / Local City Route</option>
+          </select>
         </div>
 
         <div class="form-group">
           <label class="form-label">Journey Start Location</label>
-          <input type="text" class="form-input" id="input-start-name" value="Home / Origin" />
+          <input type="text" class="form-input" id="input-start-name" value="Mumbai (BKC Hub)" />
         </div>
 
         <div class="form-group">
           <label class="form-label">Journey Destination</label>
-          <input type="text" class="form-input" id="input-end-name" value="Destination Office" />
+          <input type="text" class="form-input" id="input-end-name" value="Pune (Hinjawadi IT Park)" />
         </div>
 
         <button class="btn btn-primary" id="btn-create-journey">
-          🚀 Start Journey & Pair Real Phone
+          🚀 Start Journey & Draw Planned Route
         </button>
       </div>
 
@@ -400,8 +516,8 @@
           <span>📲 Connect Physical Phone</span>
           <span style="font-size: 0.7rem; color: var(--success);" id="paired-indicator">Ready</span>
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">
-          Scan with your phone's camera to start real GPS tracking:
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">
+          Scan with your phone's camera to transmit live GPS coordinates:
         </p>
 
         <div class="qr-container">
@@ -410,17 +526,20 @@
 
         <div class="mobile-url-box" id="mobile-url-text">Loading URL...</div>
 
-        <div style="display: flex; gap: 8px;">
-          <button class="btn btn-outline" style="font-size: 0.8rem; padding: 8px;" id="btn-copy-url">
+        <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+          <button class="btn btn-outline" style="font-size: 0.78rem; padding: 7px;" id="btn-copy-url">
             📋 Copy URL
           </button>
-          <button class="btn btn-outline" style="font-size: 0.8rem; padding: 8px;" id="btn-open-mobile-tab">
+          <button class="btn btn-outline" style="font-size: 0.78rem; padding: 7px;" id="btn-open-mobile-tab">
             🔗 Open Tab
+          </button>
+          <button class="btn btn-success" style="font-size: 0.78rem; padding: 7px;" id="btn-whatsapp-share">
+            💬 WhatsApp
           </button>
         </div>
 
-        <div style="margin-top: 10px; font-size: 0.75rem; color: #fbbf24; background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: 6px;">
-          💡 <strong>Tip for Mobile Browser:</strong> If prompted with a security warning due to self-signed local SSL, tap <em>Advanced ➔ Proceed to site</em>, then grant Location Permission.
+        <div style="font-size: 0.72rem; color: #fbbf24; background: rgba(245, 158, 11, 0.1); padding: 6px 8px; border-radius: 6px;">
+          💡 <strong>Tip:</strong> Open the link on your mobile phone, grant location permission, and watch live telemetry stream here.
         </div>
       </div>
 
@@ -453,7 +572,7 @@
           </div>
         </div>
 
-        <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted);">
+        <div style="margin-top: 10px; font-size: 0.78rem; color: var(--text-muted);">
           Coordinates: <strong id="val-coords" style="color: var(--text);">-</strong>
         </div>
       </div>
@@ -461,11 +580,11 @@
       <!-- Emergency & Lost Actions -->
       <div class="card" id="emergency-card" style="display: none;">
         <div class="card-title">
-          <span>Lost Device Actions</span>
+          <span>Lost Device Recovery</span>
           <span style="font-size: 0.7rem; color: var(--danger);">Emergency Mode</span>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
           <button class="btn btn-danger" id="btn-trigger-alarm">
             🚨 Trigger Remote Siren Alarm
           </button>
@@ -485,16 +604,24 @@
   <!-- Map Legend -->
   <div class="legend">
     <div class="legend-item">
+      <div class="legend-color" style="background: #6366f1; border: 1px solid #c7d2fe;"></div>
+      <span>Planned Highway Route (Exact Path)</span>
+    </div>
+    <div class="legend-item">
       <div class="legend-color" style="background: #38bdf8;"></div>
-      <span>Live Online Route</span>
+      <span>Live Vehicle Stream</span>
     </div>
     <div class="legend-item">
       <div class="legend-color" style="background: #f59e0b; border: 1px dashed white;"></div>
-      <span>Synced Offline Breadcrumbs</span>
+      <span>Offline Buffered Breadcrumbs</span>
     </div>
     <div class="legend-item">
       <div class="legend-color" style="background: #ef4444; border-radius: 50%;"></div>
-      <span>Last Known Location (Lost Alert)</span>
+      <span>Geofence Deviation (>500m Off Route)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: #1e40af; border: 1px solid #93c5fd; display:flex; align-items:center; justify-content:center; font-size:9px;">🚓</div>
+      <span>Nearest Police Station (Overpass OSM)</span>
     </div>
   </div>
 
@@ -505,40 +632,144 @@
     let activeJourneyId = null;
     let map = null;
     let liveMarker = null;
+    let policeMarker = null;
+    let plannedRoutePolyline = null;
+    let plannedRouteBuffer = null;
     let liveRoutePolyline = null;
     let offlineRoutePolyline = null;
+    let deviationGuideLine = null;
     let pollInterval = null;
     let lastKnownCoords = null;
+    let cachedPoliceStation = null;
 
-    // Initialize Map
+    // Preset Coordinates for instant demonstration
+    const PRESETS = {
+      'mumbai-pune': {
+        startName: 'Mumbai (BKC Terminal)',
+        endName: 'Pune (Hinjawadi Phase 1)',
+        startCoords: [19.0607, 72.8647],
+        endCoords: [18.5913, 73.7389]
+      },
+      'delhi-agra': {
+        startName: 'Delhi (India Gate)',
+        endName: 'Agra (Taj Corridor NH19)',
+        startCoords: [28.6129, 77.2295],
+        endCoords: [27.1767, 78.0081]
+      },
+      'bangalore-mysore': {
+        startName: 'Bengaluru (Kengeri Hub)',
+        endName: 'Mysuru (Suburban Terminal)',
+        startCoords: [12.9177, 77.4837],
+        endCoords: [12.2958, 76.6394]
+      },
+      'custom': {
+        startName: 'Current Origin',
+        endName: 'Designated Destination',
+        startCoords: null,
+        endCoords: null
+      }
+    };
+
+    // Preset dropdown handler
+    document.getElementById('select-route-preset').addEventListener('change', (e) => {
+      const preset = PRESETS[e.target.value];
+      if (preset && preset.startName) {
+        document.getElementById('input-start-name').value = preset.startName;
+        document.getElementById('input-end-name').value = preset.endName;
+      }
+    });
+
+    // Initialize Leaflet Map
     function initMap() {
-      // Default center around user or sensible default (e.g. 19.0760, 72.8777 or general center)
-      map = L.map('map', { zoomControl: false }).setView([20.5937, 78.9629], 5);
+      map = L.map('map', { zoomControl: false }).setView([19.0760, 72.8777], 9);
       L.control.zoom({ position: 'topright' }).addTo(map);
 
-      // Dark / Clean Map Tiles
+      // Clean OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
+        attribution: '© OpenStreetMap contributors | Geofence Corridor Engine'
       }).addTo(map);
     }
     initMap();
 
-    // Custom Icon Generator
-    function createPulseIcon(isLost) {
+    // Custom Icon Generator for Vehicle
+    function createPulseIcon(isLost, isDeviated) {
+      let markerClass = 'pulse-marker';
+      if (isLost || isDeviated) {
+        markerClass = 'lost-marker';
+      }
       return L.divIcon({
         className: 'custom-beacon',
-        html: `<div class="${isLost ? 'lost-marker' : 'pulse-marker'}"></div>`,
+        html: `<div class="${markerClass}"></div>`,
         iconSize: [26, 26],
         iconAnchor: [13, 13]
       });
     }
 
-    // Create New Journey
+    // Custom Police Station Pin
+    function createPoliceIcon() {
+      return L.divIcon({
+        className: 'police-pin-wrap',
+        html: `<div class="police-marker-pin" title="Nearest Police Station">🚓</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+    }
+
+    // -------------------------------------------------------------
+    // REQUIREMENT #2: Search / Track Any Phone Number
+    // -------------------------------------------------------------
+    async function searchAndTrackPhone(phoneNum) {
+      const feedback = document.getElementById('phone-search-feedback');
+      feedback.style.display = 'block';
+      feedback.style.color = '#38bdf8';
+      feedback.textContent = `Searching active journeys for ${phoneNum}...`;
+
+      try {
+        const res = await fetch(`/api/journey/by_phone/${encodeURIComponent(phoneNum)}`);
+        if (res.ok) {
+          const data = await res.json();
+          activeJourneyId = data.journey.id;
+          feedback.style.color = '#34d399';
+          feedback.textContent = `Found active device: ${data.journey.device_name} (ID: ${activeJourneyId})`;
+          setupPairingUI(activeJourneyId, data.journey.phone_number);
+          updateDashboardView(data);
+          startTrackingLoop();
+        } else {
+          feedback.style.color = '#f87171';
+          feedback.textContent = `No active journey currently associated with ${phoneNum}. Starting new session below.`;
+          document.getElementById('input-phone-number').value = phoneNum;
+        }
+      } catch (err) {
+        feedback.style.color = '#f87171';
+        feedback.textContent = 'Search failed: ' + err.message;
+      }
+    }
+
+    document.getElementById('btn-search-phone').addEventListener('click', () => {
+      const p = document.getElementById('search-phone-input').value.trim();
+      if (!p) {
+        alert('Please enter a phone number to track.');
+        return;
+      }
+      searchAndTrackPhone(p);
+    });
+
+    // -------------------------------------------------------------
+    // Create New Journey with Planned Highway Route & Phone Number
+    // -------------------------------------------------------------
     document.getElementById('btn-create-journey').addEventListener('click', async () => {
       const deviceName = document.getElementById('input-device-name').value;
+      const phoneNumber = document.getElementById('input-phone-number').value.trim();
       const startName = document.getElementById('input-start-name').value;
       const endName = document.getElementById('input-end-name').value;
+      const presetKey = document.getElementById('select-route-preset').value;
+      const preset = PRESETS[presetKey] || PRESETS['mumbai-pune'];
+
+      let start_lat = preset.startCoords ? preset.startCoords[0] : 19.0760;
+      let start_lng = preset.startCoords ? preset.startCoords[1] : 72.8777;
+      let end_lat = preset.endCoords ? preset.endCoords[0] : 18.5204;
+      let end_lng = preset.endCoords ? preset.endCoords[1] : 73.8567;
 
       try {
         const res = await fetch('/api/journey/start', {
@@ -546,27 +777,42 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             device_name: deviceName,
+            phone_number: phoneNumber,
             start_name: startName,
-            end_name: endName
+            end_name: endName,
+            start_lat: start_lat,
+            start_lng: start_lng,
+            end_lat: end_lat,
+            end_lng: end_lng
           })
         });
         const data = await res.json();
         if (data.success) {
           activeJourneyId = data.journey_id;
-          setupPairingUI(activeJourneyId);
+          setupPairingUI(activeJourneyId, phoneNumber);
+          if (data.planned_route && data.planned_route.length > 0) {
+            renderPlannedRoute(data.planned_route);
+          }
           startTrackingLoop();
+          // Initial police lookup near starting city
+          fetchNearestPolice(start_lat, start_lng);
         }
       } catch (err) {
         alert('Failed to initialize journey: ' + err.message);
       }
     });
 
-    // Setup Pairing QR & Link
-    async function setupPairingUI(journeyId) {
+    // -------------------------------------------------------------
+    // Setup Pairing QR, Mobile URL, and WhatsApp Share
+    // -------------------------------------------------------------
+    async function setupPairingUI(journeyId, phoneNumber = "") {
       const infoRes = await fetch('/api/server_info');
       const info = await infoRes.json();
 
-      const trackingUrl = `${window.location.protocol}//${info.local_ip}:${info.port}/track/${journeyId}`;
+      let trackingUrl = `${info.base_url}/track/${journeyId}`;
+      if (phoneNumber) {
+        trackingUrl = `${info.base_url}/track?phone=${encodeURIComponent(phoneNumber)}`;
+      }
       
       document.getElementById('pairing-card').style.display = 'block';
       document.getElementById('telemetry-card').style.display = 'block';
@@ -579,8 +825,8 @@
       if (typeof QRCode !== 'undefined') {
         new QRCode(qrEl, {
           text: trackingUrl,
-          width: 180,
-          height: 180,
+          width: 170,
+          height: 170,
           colorDark: "#0f172a",
           colorLight: "#ffffff",
           correctLevel: QRCode.CorrectLevel.M
@@ -597,9 +843,104 @@
       document.getElementById('btn-open-mobile-tab').onclick = () => {
         window.open(trackingUrl, '_blank');
       };
+
+      // WhatsApp 1-Click Share
+      document.getElementById('btn-whatsapp-share').onclick = () => {
+        const msg = encodeURIComponent(`🚨 Smart Journey Device Tracker:\nPlease tap this link to begin streaming live GPS for journey tracking:\n${trackingUrl}`);
+        const cleanPhone = (phoneNumber || '').replace(/[^0-9]/g, '');
+        const waUrl = cleanPhone ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${msg}` : `https://api.whatsapp.com/send?text=${msg}`;
+        window.open(waUrl, '_blank');
+      };
     }
 
-    // Start Real-time Data Polling
+    // -------------------------------------------------------------
+    // REQUIREMENT #4: Planned Route Highway Corridor Visualization
+    // -------------------------------------------------------------
+    function renderPlannedRoute(coordinates) {
+      if (!coordinates || coordinates.length < 2) return;
+
+      if (plannedRoutePolyline) map.removeLayer(plannedRoutePolyline);
+      if (plannedRouteBuffer) map.removeLayer(plannedRouteBuffer);
+
+      // Translucent Corridor Buffer (500m visual safety corridor band)
+      plannedRouteBuffer = L.polyline(coordinates, {
+        color: '#818cf8',
+        weight: 18,
+        opacity: 0.22,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }).addTo(map);
+
+      // Exact Designated Highway Route Centerline
+      plannedRoutePolyline = L.polyline(coordinates, {
+        color: '#6366f1',
+        weight: 5,
+        opacity: 0.95
+      }).addTo(map);
+
+      map.fitBounds(plannedRoutePolyline.getBounds(), { padding: [50, 50] });
+    }
+
+    // -------------------------------------------------------------
+    // REQUIREMENT #1: Nearest Police Station Resolver (Overpass API)
+    // -------------------------------------------------------------
+    async function fetchNearestPolice(lat, lng) {
+      try {
+        const res = await fetch(`/api/nearest_police?lat=${lat}&lng=${lng}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success && data.nearest_station) {
+          updatePoliceUI(data.nearest_station, data.emergency_contacts);
+        }
+      } catch (err) {
+        console.warn('Police lookup error:', err);
+      }
+    }
+
+    function updatePoliceUI(station, contacts) {
+      cachedPoliceStation = station;
+      document.getElementById('police-station-name').textContent = station.name;
+      document.getElementById('police-station-address').textContent = `${station.address} • Phone: ${station.phone}`;
+      document.getElementById('police-distance-tag').textContent = `📍 ${station.distance_km} km away`;
+      
+      const callBtn = document.getElementById('btn-call-police');
+      const cleanPhone = (station.phone || '112').split('/')[0].trim();
+      callBtn.href = `tel:${cleanPhone}`;
+      callBtn.textContent = `📞 Dial Station (${cleanPhone})`;
+
+      // Render Police Marker on Map
+      if (station.lat && station.lng) {
+        const policePos = [station.lat, station.lng];
+        if (!policeMarker) {
+          policeMarker = L.marker(policePos, { icon: createPoliceIcon() }).addTo(map);
+        } else {
+          policeMarker.setLatLng(policePos);
+        }
+        policeMarker.bindPopup(`
+          <div style="color: #111827; padding: 4px;">
+            <strong style="color: #1e40af;">🚓 ${station.name}</strong><br>
+            <strong>Distance:</strong> ${station.distance_km} km<br>
+            <strong>Address:</strong> ${station.address}<br>
+            <strong>Direct Phone:</strong> <a href="tel:${cleanPhone}" style="color: #dc2626; font-weight: bold;">${station.phone}</a><br>
+            <a href="${station.maps_url}" target="_blank" style="display:inline-block; margin-top:4px; color:#0284c7;">➔ Navigate in Google Maps</a>
+          </div>
+        `);
+      }
+    }
+
+    document.getElementById('btn-nav-police').addEventListener('click', () => {
+      if (cachedPoliceStation && cachedPoliceStation.maps_url) {
+        window.open(cachedPoliceStation.maps_url, '_blank');
+      } else if (lastKnownCoords) {
+        window.open(`https://www.google.com/maps/search/police+station/@${lastKnownCoords[0]},${lastKnownCoords[1]},15z`, '_blank');
+      } else {
+        alert('Police station coordinates loading. Please wait for GPS ping.');
+      }
+    });
+
+    // -------------------------------------------------------------
+    // Data Polling Loop & Dashboard State Update
+    // -------------------------------------------------------------
     function startTrackingLoop() {
       if (pollInterval) clearInterval(pollInterval);
       pollJourneyData();
@@ -627,23 +968,66 @@
 
       const locs = data.locations || [];
       const isLost = data.signal_lost || data.journey.status === 'lost';
+      const isDeviated = data.corridor_deviation_alert || data.latest_is_deviated;
+      const deviationMeters = data.latest_deviation_meters || 0;
 
-      // Update Banner
-      if (isLost) {
-        banner.className = 'status-banner status-lost';
+      // Render Planned Route if present and not yet drawn
+      if (data.planned_route && data.planned_route.length > 0 && !plannedRoutePolyline) {
+        renderPlannedRoute(data.planned_route);
+      }
+
+      // -------------------------------------------------------------
+      // REQUIREMENT #3: Geofence Corridor Deviation Alert (Threshold 500m)
+      // -------------------------------------------------------------
+      const corridorBadge = document.getElementById('corridor-badge');
+      const corridorBox = document.getElementById('corridor-status-box');
+      const corridorDesc = document.getElementById('corridor-desc');
+      const corridorDevDist = document.getElementById('corridor-deviation-distance');
+
+      if (isDeviated) {
+        corridorBadge.textContent = '🚨 OFF ROUTE (>500m)';
+        corridorBadge.style.background = '#dc2626';
+        corridorBadge.style.color = '#ffffff';
+
+        corridorBox.style.background = 'rgba(239, 68, 68, 0.2)';
+        corridorBox.style.border = '1px solid #ef4444';
+        corridorDesc.innerHTML = `<strong style="color: #fca5a5;">🚨 CORRIDOR DEVIATION ALERT!</strong><br>Vehicle has veered <strong style="color: #ffffff;">${deviationMeters.toFixed(0)}m</strong> off the designated highway route (Threshold: 500m). Automated safety alert dispatched!`;
+
+        corridorDevDist.textContent = `${deviationMeters.toFixed(0)} m (EXCEEDS 500m)`;
+        corridorDevDist.style.color = '#ef4444';
+      } else {
+        corridorBadge.textContent = '✅ ON ROUTE';
+        corridorBadge.style.background = '#065f46';
+        corridorBadge.style.color = '#6ee7b7';
+
+        corridorBox.style.background = 'rgba(16, 185, 129, 0.1)';
+        corridorBox.style.border = '1px solid #10b981';
+        corridorDesc.innerHTML = `<span style="color: #6ee7b7;">✅ Vehicle is strictly following the planned highway corridor.</span><br><span style="font-size:0.75rem; color: #9ca3af;">Cross-track distance: ${deviationMeters.toFixed(0)}m (Safe buffer &lt; 500m).</span>`;
+
+        corridorDevDist.textContent = `${deviationMeters.toFixed(0)} m (Safe)`;
+        corridorDevDist.style.color = '#10b981';
+      }
+
+      // Update Overall Status Banner
+      if (isDeviated) {
+        banner.className = 'status-banner status-deviated';
         statusIcon.textContent = '🚨';
-        statusMsg.innerHTML = `<div><strong>PHONE SIGNAL LOST!</strong></div><div style="font-size:0.75rem;">Last ping ${data.seconds_since_ping || '??'}s ago</div>`;
+        statusMsg.innerHTML = `<div><strong>CORRIDOR DEVIATION ALERT!</strong></div><div style="font-size:0.74rem;">${deviationMeters.toFixed(0)}m off highway route (>500m)</div>`;
+      } else if (isLost) {
+        banner.className = 'status-banner status-lost';
+        statusIcon.textContent = '⚠️';
+        statusMsg.innerHTML = `<div><strong>PHONE SIGNAL LOST!</strong></div><div style="font-size:0.74rem;">Last ping ${data.seconds_since_ping || '??'}s ago</div>`;
       } else if (locs.length > 0) {
         banner.className = 'status-banner status-live';
         statusIcon.textContent = '🟢';
-        statusMsg.innerHTML = `<div><strong>CONNECTED & LIVE</strong></div><div style="font-size:0.75rem;">Tracking ${data.journey.device_name}</div>`;
+        statusMsg.innerHTML = `<div><strong>CONNECTED & STREAMING</strong></div><div style="font-size:0.74rem;">Tracking ${data.journey.device_name || 'Vehicle'} (${data.journey.phone_number || 'Mobile'})</div>`;
       } else {
         banner.className = 'status-banner status-idle';
         statusIcon.textContent = '⏳';
-        statusMsg.innerHTML = `<div><strong>Awaiting First GPS Ping...</strong></div><div style="font-size:0.75rem;">Open link on mobile phone</div>`;
+        statusMsg.innerHTML = `<div><strong>Awaiting First GPS Ping...</strong></div><div style="font-size:0.74rem;">Open link on driver's mobile phone</div>`;
       }
 
-      // Update Telemetry
+      // Update Telemetry Grid
       if (locs.length > 0) {
         const last = locs[locs.length - 1];
         lastKnownCoords = [last.lat, last.lng];
@@ -655,21 +1039,27 @@
         document.getElementById('val-coords').textContent = `${last.lat.toFixed(5)}, ${last.lng.toFixed(5)}`;
         document.getElementById('last-ping-time').textContent = last.created_at || 'Just now';
 
-        // Update Map Marker
+        // Fetch nearest police station for updated coordinates if not fetched recently
+        if (!cachedPoliceStation || Math.random() < 0.15) {
+          fetchNearestPolice(last.lat, last.lng);
+        }
+
+        // Update Vehicle Marker
         if (!liveMarker) {
-          liveMarker = L.marker(lastKnownCoords, { icon: createPulseIcon(isLost) }).addTo(map);
-          map.setView(lastKnownCoords, 16);
+          liveMarker = L.marker(lastKnownCoords, { icon: createPulseIcon(isLost, isDeviated) }).addTo(map);
+          map.setView(lastKnownCoords, 14);
         } else {
           liveMarker.setLatLng(lastKnownCoords);
-          liveMarker.setIcon(createPulseIcon(isLost));
+          liveMarker.setIcon(createPulseIcon(isLost, isDeviated));
         }
 
         liveMarker.bindPopup(`
           <div style="color: #111827; padding: 4px;">
-            <strong>${isLost ? '⚠️ LAST KNOWN LOCATION' : '📍 Current Position'}</strong><br>
+            <strong>${isLost ? '⚠️ LAST KNOWN LOCATION' : (isDeviated ? '🚨 DEVIATED FROM HIGHWAY ROUTE' : '📍 Current Position')}</strong><br>
+            Phone: ${data.journey.phone_number || 'Linked Device'}<br>
             Speed: ${(last.speed || 0).toFixed(1)} km/h<br>
-            Accuracy: ±${Math.round(last.accuracy || 0)}m<br>
-            Battery: ${last.battery_level || '--'}%<br>
+            Corridor Deviation: ${deviationMeters.toFixed(0)}m ${isDeviated ? '⚠️ (>500m)' : '✅'}<br>
+            Accuracy: ±${Math.round(last.accuracy || 0)}m | Battery: ${last.battery_level || '--'}%<br>
             Time: ${last.created_at}
           </div>
         `);
@@ -694,7 +1084,7 @@
           liveRoutePolyline = L.polyline(onlineLatLngs, {
             color: '#38bdf8',
             weight: 5,
-            opacity: 0.85
+            opacity: 0.9
           }).addTo(map);
         }
 
@@ -703,19 +1093,19 @@
             color: '#f59e0b',
             dashArray: '6, 8',
             weight: 4,
-            opacity: 0.9
+            opacity: 0.95
           }).addTo(map);
         }
       }
     }
 
-    // Remote Alarm Button
+    // Remote Siren Alarm Button
     document.getElementById('btn-trigger-alarm').addEventListener('click', async () => {
       if (!activeJourneyId) return;
       try {
         const res = await fetch(`/api/journey/${activeJourneyId}/toggle_alarm`, { method: 'POST' });
         const data = await res.json();
-        alert(data.alarm_triggered ? '🚨 Emergency Alarm Triggered on Phone!' : 'Alarm deactivated.');
+        alert(data.alarm_triggered ? '🚨 Emergency Siren Alarm Triggered on Phone!' : 'Alarm deactivated.');
       } catch (err) {
         alert('Failed to trigger alarm: ' + err.message);
       }
@@ -734,21 +1124,25 @@
       pollJourneyData();
     });
 
-    // Check if there is an existing latest journey on load
+    // Load Latest Journey on Startup
     async function loadLatestExistingJourney() {
       try {
         const res = await fetch('/api/journey/latest');
         const data = await res.json();
         if (data.journey) {
           activeJourneyId = data.journey.id;
-          setupPairingUI(activeJourneyId);
+          setupPairingUI(activeJourneyId, data.journey.phone_number);
+          updateDashboardView(data);
           startTrackingLoop();
+          if (data.locations && data.locations.length > 0) {
+            fetchNearestPolice(data.locations[data.locations.length - 1].lat, data.locations[data.locations.length - 1].lng);
+          }
         }
       } catch (e){}
     }
     loadLatestExistingJourney();
 
-    // Check if on Mobile device
+    // Mobile viewport banner check
     if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
       const banner = document.getElementById('mobile-detect-banner');
       if (banner) banner.style.display = 'block';
